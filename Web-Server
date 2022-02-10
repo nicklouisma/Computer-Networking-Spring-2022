@@ -9,15 +9,15 @@ def webServer(port=13331):
   #Prepare a server socket
   serverSocket.bind(("", port))
   #Fill in start
-  print("socket binded to %s", port)
+  #print("socket binded to %s", port)
   serverSocket.listen(1)
-  print('Listening on port %s...', port)
+  #print('Listening on port %s...', port)
 
   #Fill in end
 
   while True:
     #Establish the connection
-    print('Ready to serve...')
+    #print('Ready to serve...')
     connectionSocket, addr = serverSocket.accept()
     #Fill in start
     connectionSocket.recv(1024).decode()
