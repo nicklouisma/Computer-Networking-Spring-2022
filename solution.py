@@ -25,7 +25,7 @@ def webServer(port=13331):
     #Fill in end
     try:
       try:
-        message = 'helloworld.html'
+        message = 'GET /hellowworld.html\r\n'
         
         #Fill in start    
         #Fill in end
