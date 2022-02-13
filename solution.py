@@ -7,36 +7,25 @@ import sys
 def webServer(port=13331):
   serverSocket = socket(AF_INET, SOCK_STREAM)
   #Prepare a server socket
-  serverSocket.bind(("", port))
+  
   #Fill in start
   #print("socket binded to %s", port)
-  serverSocket.listen(1)
+  serverSocket.bind(("", port))
   #print('Listening on port %s...', port)
-
+  serverSocket.listen(1)
   #Fill in end
 
   while True:
     #Establish the connection
     #print('Ready to serve...')
     connectionSocket, addr = serverSocket.accept()
-    #Fill in start
-    connectionSocket.recv(1024).decode()
-         
-    #Fill in end
     try:
       try:
-        message = 'GET /hellowworld.html\r\n'
-        
-        #Fill in start    
-        #Fill in end
+        message = connectionSocket.recv(1024).decode()
 
         filename = message.split()[1]
         f = open(filename[1:])
         outputdata = f.read()
-        
-        #Fill in start  
-           
-        #Fill in end
         
         #Send one HTTP header line into socket.
         #Fill in start
@@ -59,9 +48,8 @@ def webServer(port=13331):
 
 
         #Close client socket
-        connectionSocket.close()
         #Fill in start
-
+        connectionSocket.close()
         #Fill in end
 
     except (ConnectionResetError, BrokenPipeError):
