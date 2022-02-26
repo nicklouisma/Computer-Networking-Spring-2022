@@ -72,9 +72,8 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
     quit = "QUIT\r\n"
     clientSocket.send(quit.encode())
     recvQUIT = clientSocket.recv(1024).decode()
-    if recvQUIT[:3] != '250':
+    if recvDATA[:3] != '221':
         clientSocket.close()
-    clientSocket.close()
     # Fill in end
 
 
