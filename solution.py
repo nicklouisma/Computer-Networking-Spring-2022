@@ -8,7 +8,7 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
 
     # Choose a mail server (e.g. Google mail server) if you want to verify the script beyond GradeScope
     mailServer = 'localhost'
-    mailPort = 25
+    mailPort = 1025
 
     # Create socket called clientSocket and establish a TCP connection with mailserver and port
 
@@ -24,7 +24,7 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
     heloCommand = 'HELO Alice\r\n'
     clientSocket.send(heloCommand.encode())
     recvHELO = clientSocket.recv(1024).decode()
-    if recvHELO[:3] != ‘250’:
+    if recvHELO[:3] != '250':
         clientSocket.close()
 
 
@@ -33,7 +33,7 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
     mailfromCommand = 'MAIL FROM:<nicklouisma@gmail.com>\r\n'
     clientSocket.send(mailfromCommand)
     recvMAIL = clientSocket.recv(1024)
-    if recvMAIL[:3] != ‘250’:
+    if recvMAIL[:3] != '250':
         clientSocket.close()
     # Fill in end
 
@@ -42,7 +42,7 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
     rcptToCommand = 'RCPT TO:<louismanick@gmail.com>\r\n'
     clientSocket.send(rcptToCommand)
     recvRCPT = clientSocket.rev(1024)
-    if recvRCPT[:3] != ‘250’:
+    if recvRCPT[:3] != '250':
         clientSocket.close()
     # Fill in end
 
@@ -51,7 +51,7 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
     data = "DATA\r\n"
     clientSocket.send(data.encode())
     recvDATA = clientSocket.recv(1024)
-    if recvDATA[:3] != ‘550’:
+    if recvDATA[:3] != '550':
         clientSocket.close()
     # Fill in end
 
