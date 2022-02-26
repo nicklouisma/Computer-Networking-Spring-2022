@@ -3,7 +3,7 @@ from ssl import CHANNEL_BINDING_TYPES
 
 
 def smtp_client(port=1025, mailserver='127.0.0.1'):
-    msg = "\r\n My message"
+    msg = "\r\n QUIT"
     endmsg = "\r\n.\r\n"
 
     # Choose a mail server (e.g. Google mail server) if you want to verify the script beyond GradeScope
@@ -69,7 +69,7 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
 
     # Send QUIT command and handle server response.
     # Fill in start
-    quit = "quit\r\n"
+    quit = "QUIT\r\n"
     clientSocket.send(quit.encode())
     recvQUIT = clientSocket.recv(1024).decode()
     if recvDATA[:3] != '221':
