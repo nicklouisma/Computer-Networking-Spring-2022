@@ -19,20 +19,18 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
 
     recv = clientSocket.recv(1024).decode()
     #You can use these print statement to validate return codes from the server.
-    if recv[:3] != '220':
 
     # Send HELO command and print server response.
     heloCommand = 'HELO Alice\r\n'
     clientSocket.send(heloCommand.encode())
     recvHELO = clientSocket.recv(1024).decode()
-    if recvHELO[:3] != '250':
+
 
     # Send MAIL FROM command and handle server response.
     # Fill in start
     mailfromCommand = 'MAIL FROM:<anyemailid@gmail.com>\r\n'
     clientSocket.send(mailfromCommand)
     recvMAIL = clientSocket.recv(1024)
-    if recvMAIL[:3] != '250':
     # Fill in end
 
     # Send RCPT TO command and handle server response.
@@ -40,7 +38,6 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
     rcptToCommand = 'RCPT TO:<destination@gmail.com>\r\n'
     clientSocket.send(rcptToCommand)
     recvRCPT = clientSocket.rev(1024)
-    if recvRCPT[:3] != '250':
     # Fill in end
 
     # Send DATA command and handle server response.
