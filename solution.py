@@ -1,3 +1,4 @@
+import array
 from socket import *
 import os
 import sys
@@ -6,7 +7,7 @@ import time
 import select
 import binascii
 # Should use stdev
-from statistics import stdev
+from statistics import *
 ICMP_ECHO_REQUEST = 8
 
 
@@ -35,7 +36,10 @@ def checksum(string):
 
 
 def receiveOnePing(mySocket, ID, timeout, destAddr):
-    global rtt_min, rtt_max, rtt_sum, rtt_cnt # rtts
+    rtt_min = 0
+    rtt_max= 0
+    rtt_sum = 0
+    rtt_cnt = 0
     timeLeft = timeout
 
     while 1:
@@ -50,28 +54,15 @@ def receiveOnePing(mySocket, ID, timeout, destAddr):
 
         # Fill in start
         # Fetch the ICMP header from the IP packet
-        type, code, checksum, id, seq = struct.unpack('bbHHh', recPacket[20:28])
-        if type != 0:
-            return 'expected type=0, but got {}'.format(type)
-        if code != 0:
-            return 'expected code=0, but got {}'.format(code)
-        if ID != id:
-            return 'expected id={}, but got {}'.format(ID, id)
-        
-        timeSent,  = struct.unpack('d', recPacket[28:])
+        icmpHeader = recPacket[20:28]
+        icmpType, code, myChecksum, packetID, sequence = struct.unpack("bbHHh", icmpHeader)
+        if icmpType != 8 and packetID == ID:
+            bytesInDouble = struct.calcsize("d")
+
+        timeSent = struct.unpack("d", recPacket[28:28 + bytesInDouble])[0]
         rtt = (timeReceived - timeSent) * 1000
-        # rtts.append(rtt)
-        rtt_cnt = rtt_cnt + 1
-        rtt_sum = rtt_sum + rtt
-        rtt_min = min(rtt_min, rtt)
-        rtt_max = max(rtt_max, rtt)
 
-        ip_header = struct.unpack('!BBHHHBBH4s4s' , recPacket[:20])
-        ttl = ip_header[5]
-        saddr = socket.inet_ntoa(ip_header[8])
-        length = len(recPacket) - 20
-
-        return '{} bytes from {}: icmp_seq={} ttl={} time={:.3f} ms'.format(length, saddr, seq, ttl, rtt)
+        return rtt
         # Fill in end
         timeLeft = timeLeft - howLongInSelect
         if timeLeft <= 0:
@@ -127,18 +118,24 @@ def ping(host, timeout=1):
     dest = gethostbyname(host)
     print("Pinging " + dest + " using Python:")
     print("")
-    
+    delay_float = array.ArrayType('f')
     #Send ping requests to a server separated by approximately one second
     #Add something here to collect the delays of each ping in a list so you can calculate vars after your ping
     
     for i in range(0,4): #Four pings will be sent (loop runs for i=0, 1, 2, 3)
         delay = doOnePing(dest, timeout)
+        delay_float.append(delay)
         print(delay)
         time.sleep(1)  # one second
         
     #You should have the values of delay for each ping here; fill in calculation for packet_min, packet_avg, packet_max, and stdev
     #vars = [str(round(packet_min, 8)), str(round(packet_avg, 8)), str(round(packet_max, 8)),str(round(stdev(stdev_var), 8))]
-
+    packet_min = min(delay_float)
+    packet_max = max(delay_float)
+    packet_avg = (sum(delay_float))/(len(delay_float))
+    stdev_var = stdev(delay_float)
+    vars = packet_min, packet_avg, packet_max, stdev_var
+    print(vars)
     return vars
 
 if __name__ == '__main__':
