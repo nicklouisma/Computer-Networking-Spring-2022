@@ -6,7 +6,7 @@ import time
 import select
 import binascii
 # Should use stdev
-
+from statistics import stdev
 ICMP_ECHO_REQUEST = 8
 
 
@@ -35,7 +35,7 @@ def checksum(string):
 
 
 def receiveOnePing(mySocket, ID, timeout, destAddr):
-    global rtt_min, rtt_max, rtt_sum, rtt_cnt
+    global rtt_min, rtt_max, rtt_sum, rtt_cnt # rtts
     timeLeft = timeout
 
     while 1:
@@ -57,11 +57,12 @@ def receiveOnePing(mySocket, ID, timeout, destAddr):
             return 'expected code=0, but got {}'.format(code)
         if ID != id:
             return 'expected id={}, but got {}'.format(ID, id)
+        
         timeSent,  = struct.unpack('d', recPacket[28:])
-
         rtt = (timeReceived - timeSent) * 1000
-        rtt_cnt += 1
-        rtt_sum += rtt
+        # rtts.append(rtt)
+        rtt_cnt = rtt_cnt + 1
+        rtt_sum = rtt_sum + rtt
         rtt_min = min(rtt_min, rtt)
         rtt_max = max(rtt_max, rtt)
 
