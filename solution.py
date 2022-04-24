@@ -111,7 +111,7 @@ def get_route(hostname):
                 try:
                     #try to fetch the hostname
                     #Fill in start
-                    print ("*    *    * Request timed out.")
+                    mySocket.gethostbyname(hostname)
                     #Fill in end
                 except herror:   #if the host does not provide a hostname
                     #Fill in start
