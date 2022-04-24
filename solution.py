@@ -64,8 +64,8 @@ def get_route(hostname):
                 if whatReady[0] == []:
                     bytes = struct.calcsize("d")
                     timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
-                    print("\t *\t *\t *\t Request timed out.")
-                    tracelist1.append("\t *\t *\t *\t Request timed out.")
+                    print("d \t *\t *\t *\t Request timed out.")
+                    tracelist1.append("d \t *\t *\t *\t Request timed out.")
                     tracelist2.append(tracelist1)
                 recvPacket, addr = mySocket.recvfrom(1024)
                 timeReceived = time.time()
@@ -73,8 +73,8 @@ def get_route(hostname):
                 if timeLeft <= 0:
                     bytes = struct.calcsize("d")
                     timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
-                    print("\t *\t *\t *\t Request timed out.")
-                    tracelist1.append("\t *\t *\t *\t Request timed out.")
+                    print("d \t *\t *\t *\t Request timed out.")
+                    tracelist1.append("d \t *\t *\t *\t Request timed out.")
                     tracelist2.append(tracelist1)
             except timeout:
                 continue
