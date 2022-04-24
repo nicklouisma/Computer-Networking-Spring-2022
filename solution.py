@@ -4,7 +4,6 @@ import sys
 import struct
 import time
 import select
-import binascii
 
 ICMP_ECHO_REQUEST = 8
 MAX_HOPS = 30
@@ -103,7 +102,7 @@ def get_route(hostname):
                 if request_type == 11:
                     bytes = struct.calcsize("d")
 
-                    print("%d\t rtt = %.00f ms\t %s\t %s" % (ttl, (timeReceived - t) * 1000, addr[0], hostName)))
+                    print("%d\t rtt = %.00f ms\t %s\t %s" % (ttl, (timeReceived - t) * 1000, addr[0], hostName))
                     tracelist1.append(str(ttl))
                     tracelist1.append(str(addr[0]))
                     tracelist1.append(str(hostName))
