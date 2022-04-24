@@ -112,30 +112,28 @@ def get_route(hostname):
                 try:
                     #try to fetch the hostname
                     #Fill in start
-                    myHostName = mySocket.gethostname()
-                    print("Name of the localhost is {}".format(myHostName))
+                    hostName = gethostbyaddr(addr[0])[0]
                     #Fill in end
                 except herror:   #if the host does not provide a hostname
                     #Fill in start
-                    print ("error")
+                    hostName = "(hostname not returnable:" + str(msg) + ")"
                     #Fill in end
-                types  = struct.unpack('b', recvPacket[20:21])
-                if types == 11:
+
+                if request_type == 11:
                     bytes = struct.calcsize("d")
-                    timeSent = struct.unpack("d", recvPacket[28:28 +
-                    bytes])[0]
+                    timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
                     #Fill in start
                     #You should add your responses to your lists here
                     print (" %d   rtt=%.0f ms %s" % (ttl,(timeReceived -t)*1000, addr[0]))
                     #Fill in end
-                elif types == 3:
+                elif request_type == 3:
                     bytes = struct.calcsize("d")
                     timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
                     #Fill in start
                     #You should add your responses to your lists here
                     print (" %d   rtt=%.0f ms %s" % (ttl,(timeReceived -t)*1000, addr[0])) 
                     #Fill in end
-                elif types == 0:
+                elif request_type == 0:
                     bytes = struct.calcsize("d")
                     timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
                     #Fill in start
