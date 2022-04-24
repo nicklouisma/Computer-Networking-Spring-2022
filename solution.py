@@ -105,15 +105,13 @@ def get_route(hostname):
                     #Fill in end
             except timeout:
                 continue
-
             else:
-                #Fill in start
-                #Fetch the icmp type from the IP packet
                 icmpHeader = recvPacket[20:28]
                 request_type, code, checksum, packetID, sequence = struct.unpack("bbHHh", icmpHeader)
-                #Fill in end
-                try: #try to fetch the hostname
+                try:
+                    #try to fetch the hostname
                     #Fill in start
+                    print ("*    *    * Request timed out.")
                     #Fill in end
                 except herror:   #if the host does not provide a hostname
                     #Fill in start
@@ -141,7 +139,6 @@ def get_route(hostname):
                     #Fill in start
                     #You should add your responses to your lists here and return your list if your destination IP is met
                     print (" %d   rtt=%.0f ms %s" % (ttl,(timeReceived -timeSent)*1000, addr[0]))
-    
                     #Fill in end
                 else:
                     #Fill in start
