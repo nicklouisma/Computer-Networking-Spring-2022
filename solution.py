@@ -112,7 +112,8 @@ def get_route(hostname):
                 try:
                     #try to fetch the hostname
                     #Fill in start
-                    print(destAddr)
+                    myHostName = mySocket.gethostname()
+                    print("Name of the localhost is {}".format(myHostName))
                     #Fill in end
                 except herror:   #if the host does not provide a hostname
                     #Fill in start
